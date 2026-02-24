@@ -222,7 +222,7 @@ function Hero({ onTryDemo }) {
         <BlockchainViz className="w-full h-full" />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-24 sm:py-32 w-full">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-32 w-full">
         <div className="max-w-2xl">
           {/* Label */}
           <div className="flex items-center gap-2 mb-6">
@@ -302,8 +302,8 @@ function Hero({ onTryDemo }) {
         </div>
 
         {/* Mobile blockchain viz */}
-        <div className="mt-16 lg:hidden opacity-40 max-w-xs mx-auto">
-          <BlockchainViz className="w-full h-48" />
+        <div className="mt-8 lg:hidden opacity-20 max-w-[200px] mx-auto">
+          <BlockchainViz className="w-full h-28" />
         </div>
       </div>
     </section>
@@ -331,11 +331,11 @@ function ProblemSection() {
   ];
 
   return (
-    <section className="py-20 sm:py-28" style={{ backgroundColor: C.darkMid }}>
+    <section className="py-14 sm:py-28" style={{ backgroundColor: C.darkMid }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Big stat */}
         <div
-          className="rounded-2xl p-8 sm:p-12 mb-16 text-center"
+          className="rounded-2xl p-6 sm:p-12 mb-10 sm:mb-16 text-center"
           style={{
             background: `linear-gradient(135deg, rgba(59,18,141,0.3), rgba(247,88,53,0.12))`,
             border: `1px solid rgba(247,88,53,0.2)`,
@@ -418,7 +418,7 @@ function HowItWorks() {
   ];
 
   return (
-    <section className="py-20 sm:py-28" style={{ backgroundColor: C.cream }}>
+    <section className="py-14 sm:py-28" style={{ backgroundColor: C.cream }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center gap-2 mb-4">
           <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: C.orange }} />
@@ -427,7 +427,7 @@ function HowItWorks() {
         <h2 className="font-display font-bold mb-4" style={{ color: C.dark, fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}>
           Trade Done Right
         </h2>
-        <p className="font-body text-lg mb-16 max-w-xl" style={{ color: 'rgba(6,4,48,0.55)' }}>
+        <p className="font-body text-lg mb-10 sm:mb-16 max-w-xl" style={{ color: 'rgba(6,4,48,0.55)' }}>
           Three steps. Full transparency on-chain. No intermediaries.
         </p>
 
@@ -454,6 +454,13 @@ function HowItWorks() {
 }
 
 // ─── Transaction Card ─────────────────────────────────────────────────────────
+const TX_LABEL_MAP = {
+  TxHash: 'Tx Hash', GasUsed: 'Gas Used', DocHash: 'Doc Hash',
+  NetToSeller: 'Net Seller', ProtocolFee: 'Protocol Fee',
+  Documents: 'Docs', Oracle: 'Oracle', Network: 'Network',
+};
+function fmtKey(k) { return TX_LABEL_MAP[k] || k; }
+
 function TxCard({ label, data, status }) {
   if (status === null) return null;
 
@@ -493,16 +500,15 @@ function TxCard({ label, data, status }) {
       {isConfirmed && data && (
         <div className="space-y-1.5 font-mono text-xs" style={{ color: C.textMuted }}>
           {Object.entries(data).map(([k, v]) => (
-            <div key={k} className="flex justify-between gap-3">
-              <span className="opacity-60 whitespace-nowrap">{k}:</span>
+            <div key={k} className="flex justify-between gap-2 min-w-0">
+              <span className="opacity-60 whitespace-nowrap flex-shrink-0">{fmtKey(k)}:</span>
               <span
-                className="text-right truncate"
+                className="text-right truncate min-w-0"
                 style={{
                   color: String(v).startsWith('0x') ? 'rgba(255,255,255,0.5)'
                     : k === 'Result' || k === 'Oracle' ? C.green
                     : k === 'Amount' || k === 'NetToSeller' ? C.orange
                     : 'rgba(255,255,255,0.75)',
-                  maxWidth: '60%',
                 }}
               >
                 {String(v).startsWith('0x') ? trunc(v) : v}
@@ -621,7 +627,7 @@ function LiveDemo({ demoRef }) {
     : [];
 
   return (
-    <section ref={demoRef} className="py-20 sm:py-28" style={{ backgroundColor: C.dark }}>
+    <section ref={demoRef} className="py-14 sm:py-28" style={{ backgroundColor: C.dark }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="flex items-center gap-2 mb-4">
@@ -631,7 +637,7 @@ function LiveDemo({ demoRef }) {
         <h2 className="font-display font-bold text-white mb-4" style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}>
           See It In Action
         </h2>
-        <p className="font-body text-lg mb-12" style={{ color: C.textMuted }}>
+        <p className="font-body text-lg mb-8 sm:mb-12" style={{ color: C.textMuted }}>
           Simulate a real blockchain trade finance transaction — step by step.
         </p>
 
@@ -655,10 +661,10 @@ function LiveDemo({ demoRef }) {
                 </span>
               </div>
 
-              <div className="p-5 sm:p-6 min-h-96">
+              <div className="p-4 sm:p-6 min-h-[260px] sm:min-h-96">
                 {/* ── IDLE ── */}
                 {phase === 'idle' && (
-                  <div className="flex flex-col items-center justify-center h-80 gap-5 text-center">
+                  <div className="flex flex-col items-center justify-center h-52 sm:h-64 gap-5 text-center">
                     <div
                       className="w-16 h-16 rounded-2xl flex items-center justify-center"
                       style={{ backgroundColor: 'rgba(247,88,53,0.1)', border: `1px solid rgba(247,88,53,0.25)` }}
@@ -689,7 +695,7 @@ function LiveDemo({ demoRef }) {
 
                 {/* ── CONNECTING ── */}
                 {phase === 'connecting' && (
-                  <div className="flex flex-col items-center justify-center h-80 gap-5 text-center">
+                  <div className="flex flex-col items-center justify-center h-52 sm:h-64 gap-5 text-center">
                     <div
                       className="w-16 h-16 rounded-2xl flex items-center justify-center"
                       style={{ backgroundColor: 'rgba(247,88,53,0.1)', border: `1px solid rgba(247,88,53,0.35)` }}
@@ -918,7 +924,7 @@ function StatsSection() {
   ];
 
   return (
-    <section className="py-20 sm:py-24" style={{ backgroundColor: C.violet }}>
+    <section className="py-12 sm:py-24" style={{ backgroundColor: C.violet }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-12 text-center">
           {stats.map(s => (
@@ -960,7 +966,7 @@ function FinancingSection() {
   ];
 
   return (
-    <section className="py-20 sm:py-28" style={{ backgroundColor: C.darkLight }}>
+    <section className="py-14 sm:py-28" style={{ backgroundColor: C.darkLight }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center gap-2 mb-4">
           <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: C.orange }} />
@@ -969,7 +975,7 @@ function FinancingSection() {
         <h2 className="font-display font-bold text-white mb-4" style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}>
           Built for Every Participant
         </h2>
-        <p className="font-body text-lg mb-16" style={{ color: C.textMuted, maxWidth: '520px' }}>
+        <p className="font-body text-lg mb-10 sm:mb-16" style={{ color: C.textMuted, maxWidth: '520px' }}>
           Trade3 creates value for sellers, buyers, and lenders simultaneously.
         </p>
 
@@ -999,7 +1005,7 @@ function Footer({ onTryDemo }) {
   return (
     <footer style={{ backgroundColor: C.darkMid }}>
       {/* CTA block */}
-      <div className="py-20 sm:py-28 text-center px-4">
+      <div className="py-14 sm:py-28 text-center px-4">
         <div className="max-w-xl mx-auto">
           <h2 className="font-display font-extrabold text-white mb-4" style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}>
             Ready to Trade Smarter?

@@ -22,6 +22,12 @@ body {
   background-color: var(--color-dark);
   color: var(--color-white);
   font-family: var(--font-karla), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Prevent horizontal overflow on all containers */
+main, section {
+  overflow-x: hidden;
 }
 
 /* Blockchain node pulse */

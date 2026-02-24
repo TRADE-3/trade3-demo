@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-dark: #060430;
+  --color-violet: #3B128D;
+  --color-orange: #F75835;
+  --color-cream: #FDF5EF;
+  --color-white: #FFFFFF;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  font-family: var(--font-karla), sans-serif;
+}
+
+/* Blockchain node pulse */
+@keyframes node-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+
+/* Data packet travelling along edge */
+@keyframes packet-move {
+  0% {
+    opacity: 0;
+    offset-distance: 0%;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    offset-distance: 100%;
+  }
+}
+
+/* Card fade-in */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Shimmer for loading state */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Confirmed glow */
+@keyframes confirmed-glow {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(72, 199, 116, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(72, 199, 116, 0.5);
+  }
+}
+
+/* Counter tick */
+@keyframes tick-up {
+  from {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.node-pulse {
+  animation: node-pulse 2s ease-in-out infinite;
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.4s ease-out forwards;
+}
+
+.confirmed-glow {
+  animation: confirmed-glow 2s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-orange);
+  border-radius: 2px;
+}
+
+/* Select option styling (dark theme) */
+select option {
+  background-color: #0d0a2e;
+  color: #ffffff;
+}
+
+/* Focus ring */
+select:focus,
+input:focus {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 1px;
+}

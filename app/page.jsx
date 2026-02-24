@@ -32,6 +32,24 @@ const COUNTRIES = ['UAE', 'Singapore', 'Hong Kong', 'Japan', 'South Korea', 'Ind
 const AMOUNTS = [100000, 250000, 500000, 1000000, 2500000, 5000000];
 const BLOCK_SEED = 19847000;
 
+// ─── Mock Trade History ──────────────────────────────────────────────────────
+const MOCK_TRADES = [
+  { id: 'T3-2482', commodity: 'Crude Oil',   amount: 2500000, seller: 'UAE',       buyer: 'Singapore',  status: 'Settled', date: 'Jan 18, 2026', settlement: '22h', fee: 6250,  saved: 68750  },
+  { id: 'T3-2461', commodity: 'Iron Ore',    amount: 1200000, seller: 'Australia', buyer: 'Japan',      status: 'Settled', date: 'Jan 09, 2026', settlement: '19h', fee: 3000,  saved: 33000  },
+  { id: 'T3-2440', commodity: 'Soybeans',   amount:  800000, seller: 'Brazil',    buyer: 'Hong Kong',  status: 'Settled', date: 'Dec 28, 2025', settlement: '24h', fee: 2000,  saved: 22000  },
+  { id: 'T3-2419', commodity: 'Cotton',     amount:  350000, seller: 'India',     buyer: 'Germany',    status: 'Settled', date: 'Dec 15, 2025', settlement: '21h', fee:  875,  saved:  9625  },
+  { id: 'T3-2388', commodity: 'Copper Ore', amount: 3000000, seller: 'USA',       buyer: 'S. Korea',   status: 'Settled', date: 'Nov 30, 2025', settlement: '23h', fee: 7500,  saved: 82500  },
+  { id: 'T3-2371', commodity: 'Wheat',      amount:  450000, seller: 'Australia', buyer: 'UAE',        status: 'Settled', date: 'Nov 14, 2025', settlement: '20h', fee: 1125,  saved: 12375  },
+  { id: 'T3-2350', commodity: 'Rice',       amount:  600000, seller: 'India',     buyer: 'Singapore',  status: 'Active',  date: 'Jan 24, 2026', settlement: '—',   fee: 1500,  saved: null   },
+  { id: 'T3-2341', commodity: 'LNG',        amount: 5000000, seller: 'UAE',       buyer: 'Japan',      status: 'Active',  date: 'Jan 22, 2026', settlement: '—',   fee: 12500, saved: null   },
+];
+
+const MONTHLY_VOL = [
+  { month: 'Aug', vol: 2.1 }, { month: 'Sep', vol: 3.5 },
+  { month: 'Oct', vol: 2.8 }, { month: 'Nov', vol: 5.2 },
+  { month: 'Dec', vol: 4.1 }, { month: 'Jan', vol: 8.9 },
+];
+
 function genTradeData(commodity, amount, seller, buyer) {
   const contractAddr = genAddr();
   const escrowAddr = genAddr();
@@ -382,6 +400,86 @@ function ProblemSection() {
   );
 }
 
+// ─── ADB 4 Priorities ────────────────────────────────────────────────────────
+function ADBPrioritiesSection() {
+  const priorities = [
+    {
+      num: '01', icon: '📊', badge: 'Data Infrastructure',
+      title: 'Expand Trade Finance Register',
+      adb: 'Making the Register more robust and granular provides the evidence base for better capital treatment of trade assets, reducing risk perceptions and freeing financing capacity for trade.',
+      trade3: 'Every Trade3 transaction is hashed on-chain — creating a permanent, auditable register of verified trade finance activity that reduces information asymmetry for lenders globally.',
+    },
+    {
+      num: '02', icon: '⚡', badge: 'Digitalisation 2030',
+      title: 'Accelerate Trade Digitalisation',
+      adb: 'Converting paper-based processes across exporters, shipping, ports, customs, warehousing, and finance would be transformational. A plan exists to achieve this by 2030.',
+      trade3: 'Trade3 replaces paper docs with blockchain-native smart contracts. Bills of lading, certificates of origin, and invoices are hashed and oracle-verified on-chain in real time.',
+    },
+    {
+      num: '03', icon: '🔗', badge: 'SCF Expansion',
+      title: 'Scale Supply Chain Finance',
+      adb: 'Expanding SCF solutions — including pre-shipment finance — allows more firms, especially SMEs, to access affordable liquidity and adjust to shifting global trade patterns.',
+      trade3: "Trade3's financing vault structure lets any lender globally participate in funding verified trade transactions, creating a permissionless SCF layer on public blockchain.",
+    },
+    {
+      num: '04', icon: '🌐', badge: 'SME Inclusion',
+      title: 'Deep-Tier Supply Chain Finance',
+      adb: 'DTSCF extends financing deeper into supply networks using anchor buyer creditworthiness, unlocking liquidity for smaller suppliers traditionally excluded from financial markets.',
+      trade3: 'Trade3 tokenises trade receivables as RWA tokens backed by verified on-chain agreements — enabling lower-tier SME suppliers to access institutional liquidity at scale.',
+    },
+  ];
+
+  return (
+    <section className="py-14 sm:py-28" style={{ backgroundColor: C.dark }}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: C.orange }} />
+          <span className="font-body text-sm" style={{ color: C.textMuted }}>ADB Global Trade Finance Gap Survey 2025</span>
+        </div>
+        <h2 className="font-display font-bold text-white mb-4" style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}>
+          Trade3 Addresses the 4 Industry Priorities
+        </h2>
+        <p className="font-body text-lg mb-10 sm:mb-16" style={{ color: C.textMuted, maxWidth: '580px' }}>
+          The ADB's 2025 report identifies four critical actions to close the $2.5T gap. Trade3 is purpose-built to deliver on all four.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {priorities.map(p => (
+            <div
+              key={p.num}
+              className="rounded-2xl p-6 sm:p-7"
+              style={{ backgroundColor: C.darkMid, border: `1px solid ${C.border}` }}
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">{p.icon}</span>
+                  <span className="font-body text-xs font-bold" style={{ color: C.orange }}>{p.num}</span>
+                </div>
+                <span
+                  className="font-body text-xs px-2.5 py-1 rounded-full"
+                  style={{ backgroundColor: 'rgba(59,18,141,0.3)', color: 'rgba(255,255,255,0.55)', border: `1px solid rgba(59,18,141,0.4)` }}
+                >
+                  {p.badge}
+                </span>
+              </div>
+              <h3 className="font-display font-bold text-white text-lg mb-4">{p.title}</h3>
+              <div className="space-y-2.5">
+                <div className="rounded-lg p-3" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: `1px solid ${C.border}` }}>
+                  <div className="font-body text-xs font-semibold mb-1.5" style={{ color: C.textSub }}>ADB Priority</div>
+                  <p className="font-body text-xs leading-relaxed" style={{ color: C.textMuted }}>{p.adb}</p>
+                </div>
+                <div className="rounded-lg p-3" style={{ backgroundColor: 'rgba(247,88,53,0.06)', border: `1px solid rgba(247,88,53,0.2)` }}>
+                  <div className="font-body text-xs font-semibold mb-1.5" style={{ color: C.orange }}>Trade3 Response</div>
+                  <p className="font-body text-xs leading-relaxed" style={{ color: C.textMuted }}>{p.trade3}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── How It Works ────────────────────────────────────────────────────────────
 function HowItWorks() {
   const steps = [
@@ -447,6 +545,158 @@ function HowItWorks() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Tokenised Bill of Exchange ──────────────────────────────────────────────
+function TokenizedBoESection() {
+  const [activeStep, setActiveStep] = useState(0);
+  const [fading, setFading] = useState(false);
+
+  const steps = [
+    {
+      num: '01', icon: '📄', label: 'Issue',
+      title: 'Paper → Digital Token',
+      desc: 'A traditional bill of exchange is converted into a unique digital token on Ethereum. All trade terms — amount, counterparties, maturity date, and legal obligations — are cryptographically embedded. Electronic signatures replace physical wet stamps entirely.',
+      data: { Standard: 'UK ETDA 2023 / US UCC Art. 12', Type: 'Negotiable Instrument Token', Network: 'Ethereum Mainnet', Format: 'ERC-3475 (Bond Token)' },
+      badge: '⚖️ Legally binding under UK Electronic Trade Documents Act 2023',
+    },
+    {
+      num: '02', icon: '💰', label: 'Finance',
+      title: 'Instant Working Capital',
+      desc: 'The tokenised bill is offered to financing participants across the Trade3 network. Blockchain transparency enables rapid due diligence. Suppliers sell the bill at a discount for immediate USDC — cutting the traditional 30–90 day wait to under 24 hours.',
+      data: { Mechanism: 'Discount Financing', Currency: 'USDC Stablecoin', Speed: '< 24 hours', 'vs Traditional': '30–90 day wait' },
+      badge: '🔍 Chainlink oracle-verified receivables',
+    },
+    {
+      num: '03', icon: '🔄', label: 'Transfer',
+      title: 'Frictionless Ownership Transfer',
+      desc: 'Ownership transfers automatically with the token — no physical delivery, re-endorsement, or new legal agreement per transfer. Any institution globally can hold the token. All transfers are instant, atomic, and immutably recorded on-chain with full audit trail.',
+      data: { Type: 'Atomic Token Transfer', Settlement: 'T+0 (immediate)', Endorsement: 'Automatic on-chain', Audit: 'Immutable ledger' },
+      badge: '🔒 Zero manual reconciliation required',
+    },
+    {
+      num: '04', icon: '✅', label: 'Settle',
+      title: 'Automated Payment Release',
+      desc: 'At maturity, a smart contract automatically triggers payment execution to the current token holder. No need to track paper across institutions. Funds flow directly to the rightful owner in USDC, eliminating all manual reconciliation and bank delays.',
+      data: { Trigger: 'Smart Contract Auto', Currency: 'USDC Stablecoin', Speed: 'Instant at maturity', Reconciliation: 'Zero manual steps' },
+      badge: '✓ Validated: Citi × PwC × Solana Proof of Concept',
+    },
+  ];
+
+  const goTo = (i) => {
+    if (i === activeStep || fading) return;
+    setFading(true);
+    setTimeout(() => { setActiveStep(i); setFading(false); }, 180);
+  };
+
+  const s = steps[activeStep];
+
+  return (
+    <section className="py-14 sm:py-28" style={{ backgroundColor: C.darkLight }}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: C.orange }} />
+          <span className="font-body text-sm" style={{ color: C.textMuted }}>Validated: Citi × PwC × Solana Proof of Concept</span>
+        </div>
+        <h2 className="font-display font-bold text-white mb-4" style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}>
+          Tokenised Bill of Exchange
+        </h2>
+        <p className="font-body text-lg mb-10 sm:mb-12" style={{ color: C.textMuted, maxWidth: '560px' }}>
+          Paper bills of exchange — the backbone of $10T in annual trade — converted into programmable digital tokens. Legal. Instant. Global.
+        </p>
+
+        {/* Step selector */}
+        <div className="flex gap-2 mb-8 overflow-x-auto pb-1">
+          {steps.map((st, i) => (
+            <button
+              key={st.num}
+              onClick={() => goTo(i)}
+              className="flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl font-body font-semibold text-sm transition-all duration-200"
+              style={{
+                backgroundColor: i === activeStep ? C.orange : 'rgba(255,255,255,0.05)',
+                color: i === activeStep ? C.white : C.textMuted,
+                border: `1px solid ${i === activeStep ? C.orange : C.border}`,
+              }}
+            >
+              <span>{st.icon}</span>
+              <span>{st.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Content panel */}
+        <div style={{ opacity: fading ? 0 : 1, transition: 'opacity 0.18s ease' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Left: Description */}
+            <div className="rounded-2xl p-6 sm:p-8" style={{ backgroundColor: C.darkMid, border: `1px solid ${C.border}` }}>
+              <div className="flex items-center gap-3 mb-5">
+                <span className="text-3xl">{s.icon}</span>
+                <div>
+                  <div className="font-body text-xs font-bold" style={{ color: C.orange }}>Step {s.num}</div>
+                  <h3 className="font-display font-bold text-white text-xl">{s.title}</h3>
+                </div>
+              </div>
+              <p className="font-body text-sm leading-relaxed mb-6" style={{ color: C.textMuted }}>{s.desc}</p>
+              <div
+                className="flex items-start gap-2 px-3 py-2.5 rounded-lg font-body text-xs"
+                style={{ backgroundColor: 'rgba(62,207,142,0.08)', border: '1px solid rgba(62,207,142,0.2)' }}
+              >
+                <span style={{ color: C.green }}>✓</span>
+                <span style={{ color: C.green }}>{s.badge}</span>
+              </div>
+            </div>
+
+            {/* Right: On-chain params + lifecycle progress */}
+            <div className="rounded-2xl p-6 sm:p-8" style={{ backgroundColor: 'rgba(247,88,53,0.04)', border: `1px solid rgba(247,88,53,0.2)` }}>
+              <div className="font-body text-xs font-bold mb-5" style={{ color: C.orange }}>On-Chain Parameters</div>
+              <div className="mb-6">
+                {Object.entries(s.data).map(([k, v]) => (
+                  <div key={k} className="flex justify-between gap-4 py-2.5 border-b font-mono text-sm" style={{ borderColor: C.border }}>
+                    <span style={{ color: C.textSub }}>{k}</span>
+                    <span className="text-right" style={{ color: C.white }}>{v}</span>
+                  </div>
+                ))}
+              </div>
+              {/* Lifecycle progress */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-body text-xs" style={{ color: C.textSub }}>Lifecycle Progress</span>
+                  <span className="font-body text-xs font-bold" style={{ color: C.orange }}>{Math.round(((activeStep + 1) / 4) * 100)}%</span>
+                </div>
+                <div className="w-full h-1.5 rounded-full overflow-hidden mb-2" style={{ backgroundColor: 'rgba(255,255,255,0.07)' }}>
+                  <div
+                    className="h-1.5 rounded-full transition-all duration-500"
+                    style={{ backgroundColor: C.orange, width: `${((activeStep + 1) / 4) * 100}%` }}
+                  />
+                </div>
+                <div className="flex justify-between">
+                  {steps.map((st, i) => (
+                    <button
+                      key={i}
+                      onClick={() => goTo(i)}
+                      className="font-body text-xs transition-colors"
+                      style={{ color: i <= activeStep ? C.orange : C.textSub }}
+                    >
+                      {st.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Legal footnotes */}
+        <div className="mt-8 flex flex-wrap gap-4 sm:gap-8 font-body text-xs" style={{ color: C.textSub }}>
+          {[
+            '⚖️ UK Electronic Trade Documents Act 2023',
+            '⚖️ US Uniform Commercial Code Article 12',
+            '🔬 Citi × PwC × Solana PoC — $1T DLT trade finance forecast by 2030',
+          ].map(t => <span key={t}>{t}</span>)}
         </div>
       </div>
     </section>
@@ -1000,6 +1250,282 @@ function FinancingSection() {
   );
 }
 
+// ─── SME Dashboard ────────────────────────────────────────────────────────────
+function SMEDashboard() {
+  const [tab, setTab] = useState('overview');
+
+  const settled  = MOCK_TRADES.filter(t => t.status === 'Settled');
+  const active   = MOCK_TRADES.filter(t => t.status === 'Active');
+  const totalVol   = MOCK_TRADES.reduce((s, t) => s + t.amount, 0);
+  const totalFees  = MOCK_TRADES.reduce((s, t) => s + t.fee, 0);
+  const totalSaved = settled.reduce((s, t) => s + (t.saved || 0), 0);
+  const maxVol = Math.max(...MONTHLY_VOL.map(d => d.vol));
+
+  const ss = (status) => status === 'Settled'
+    ? { bg: 'rgba(62,207,142,0.12)', color: C.green,   icon: '✓' }
+    : { bg: 'rgba(247,88,53,0.12)',  color: C.orange,  icon: '◐' };
+
+  const TABS = [['overview','Overview'],['transactions','Transactions'],['analytics','Analytics']];
+
+  return (
+    <section className="py-14 sm:py-28" style={{ backgroundColor: C.darkMid }}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <div className="flex items-center gap-2 mb-4">
+          <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: C.orange }} />
+          <span className="font-body text-sm" style={{ color: C.textMuted }}>SME Portal</span>
+        </div>
+        <h2 className="font-display font-bold text-white mb-4" style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}>
+          Your Trade Finance Dashboard
+        </h2>
+        <p className="font-body text-lg mb-8 sm:mb-10" style={{ color: C.textMuted }}>
+          Full visibility into every transaction — past, present, and pending.
+        </p>
+
+        {/* Tab bar */}
+        <div className="flex gap-1 mb-8 p-1 rounded-xl w-fit" style={{ backgroundColor: 'rgba(255,255,255,0.04)', border: `1px solid ${C.border}` }}>
+          {TABS.map(([id, label]) => (
+            <button
+              key={id}
+              onClick={() => setTab(id)}
+              className="px-4 sm:px-5 py-2 rounded-lg font-body font-semibold text-sm transition-all duration-200"
+              style={{ backgroundColor: tab === id ? C.orange : 'transparent', color: tab === id ? C.white : C.textMuted }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {/* ── OVERVIEW TAB ── */}
+        {tab === 'overview' && (
+          <div>
+            {/* KPI row */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+              {[
+                { label: 'Total Volume',   value: `$${(totalVol/1e6).toFixed(1)}M`, sub: `${MOCK_TRADES.length} trades`,  color: C.orange },
+                { label: 'Fees Saved',     value: `$${fmtNum(totalSaved)}`,          sub: 'vs 3–5% banks',                 color: C.green  },
+                { label: 'Active Trades',  value: active.length,                     sub: 'In escrow now',                 color: C.violetLight },
+                { label: 'Avg Settlement', value: '21.5h',                           sub: 'vs 60+ day avg',                color: C.orange },
+              ].map(k => (
+                <div key={k.label} className="rounded-xl p-4 sm:p-5" style={{ backgroundColor: C.darkLight, border: `1px solid ${C.border}` }}>
+                  <div className="font-display font-extrabold text-2xl mb-1" style={{ color: k.color }}>{k.value}</div>
+                  <div className="font-body text-xs font-semibold text-white mb-0.5">{k.label}</div>
+                  <div className="font-body text-xs" style={{ color: C.textSub }}>{k.sub}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Recent trades list */}
+            <div className="rounded-2xl overflow-hidden mb-4" style={{ backgroundColor: C.darkLight, border: `1px solid ${C.border}` }}>
+              <div className="px-5 py-3.5 border-b flex items-center justify-between" style={{ borderColor: C.border }}>
+                <span className="font-display font-bold text-white">Recent Transactions</span>
+                <button onClick={() => setTab('transactions')} className="font-body text-xs font-semibold" style={{ color: C.orange }}>
+                  View all →
+                </button>
+              </div>
+              {MOCK_TRADES.slice(0, 5).map((t, i) => {
+                const st = ss(t.status);
+                return (
+                  <div
+                    key={t.id}
+                    className="px-5 py-3.5 flex items-center justify-between gap-3"
+                    style={{ borderBottom: i < 4 ? `1px solid ${C.border}` : 'none' }}
+                  >
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                        <span className="font-body text-sm font-semibold text-white">{t.commodity}</span>
+                        <span className="font-mono text-xs" style={{ color: C.textSub }}>{t.id}</span>
+                      </div>
+                      <div className="font-body text-xs" style={{ color: C.textSub }}>{t.seller} → {t.buyer} · {t.date}</div>
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      <div className="font-body text-sm font-bold mb-1" style={{ color: C.orange }}>${fmtNum(t.amount)}</div>
+                      <span className="font-body text-xs px-2 py-0.5 rounded-full" style={{ backgroundColor: st.bg, color: st.color }}>
+                        {st.icon} {t.status}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Active trade trackers */}
+            {active.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {active.map(t => (
+                  <div key={t.id} className="rounded-xl p-4" style={{ backgroundColor: 'rgba(247,88,53,0.06)', border: `1px solid rgba(247,88,53,0.25)` }}>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-body text-xs font-bold" style={{ color: C.orange }}>◐ {t.id}</span>
+                      <span className="font-body text-xs animate-pulse" style={{ color: C.orange }}>In escrow</span>
+                    </div>
+                    <div className="font-display font-bold text-white mb-0.5">{t.commodity}</div>
+                    <div className="font-body text-xs mb-3" style={{ color: C.textMuted }}>{t.seller} → {t.buyer} · {t.date}</div>
+                    <div className="w-full h-1 rounded-full overflow-hidden mb-1.5" style={{ backgroundColor: 'rgba(255,255,255,0.07)' }}>
+                      <div className="h-1 rounded-full animate-pulse" style={{ backgroundColor: C.orange, width: '45%' }} />
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-body text-xs" style={{ color: C.textSub }}>Document verification in progress</span>
+                      <span className="font-body text-xs font-bold text-white">${fmtNum(t.amount)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── TRANSACTIONS TAB ── */}
+        {tab === 'transactions' && (
+          <div className="rounded-2xl overflow-hidden" style={{ border: `1px solid ${C.border}` }}>
+            {/* Desktop table */}
+            <div className="hidden sm:block overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr style={{ backgroundColor: C.darkLight, borderBottom: `1px solid ${C.border}` }}>
+                    {['ID', 'Commodity', 'Route', 'Amount', 'Fee (0.25%)', 'Saved vs Banks', 'Settlement', 'Status'].map(h => (
+                      <th key={h} className="px-4 py-3 text-left font-body text-xs font-semibold" style={{ color: C.textSub }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {MOCK_TRADES.map((t, i) => {
+                    const st = ss(t.status);
+                    return (
+                      <tr key={t.id} style={{ backgroundColor: i % 2 === 0 ? C.darkLight : 'rgba(22,18,64,0.6)', borderBottom: `1px solid ${C.border}` }}>
+                        <td className="px-4 py-3 font-mono text-xs" style={{ color: C.textMuted }}>{t.id}</td>
+                        <td className="px-4 py-3 font-body text-sm text-white font-semibold">{t.commodity}</td>
+                        <td className="px-4 py-3 font-body text-xs" style={{ color: C.textMuted }}>{t.seller} → {t.buyer}</td>
+                        <td className="px-4 py-3 font-body text-sm font-bold" style={{ color: C.orange }}>${fmtNum(t.amount)}</td>
+                        <td className="px-4 py-3 font-body text-xs text-white">${fmtNum(t.fee)}</td>
+                        <td className="px-4 py-3 font-body text-xs font-bold" style={{ color: C.green }}>{t.saved ? `+$${fmtNum(t.saved)}` : '—'}</td>
+                        <td className="px-4 py-3 font-body text-xs text-white">{t.settlement}</td>
+                        <td className="px-4 py-3">
+                          <span className="font-body text-xs px-2 py-0.5 rounded-full" style={{ backgroundColor: st.bg, color: st.color }}>
+                            {st.icon} {t.status}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile card list */}
+            <div className="sm:hidden divide-y" style={{ borderColor: C.border }}>
+              {MOCK_TRADES.map(t => {
+                const st = ss(t.status);
+                return (
+                  <div key={t.id} className="p-4" style={{ backgroundColor: C.darkLight }}>
+                    <div className="flex items-start justify-between gap-3 mb-1.5">
+                      <div>
+                        <span className="font-body font-bold text-white">{t.commodity}</span>
+                        <span className="font-mono text-xs ml-2" style={{ color: C.textSub }}>{t.id}</span>
+                      </div>
+                      <span className="font-body text-xs px-2 py-0.5 rounded-full flex-shrink-0" style={{ backgroundColor: st.bg, color: st.color }}>
+                        {st.icon} {t.status}
+                      </span>
+                    </div>
+                    <div className="font-body text-xs mb-2" style={{ color: C.textSub }}>{t.seller} → {t.buyer} · {t.date}</div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-body font-bold" style={{ color: C.orange }}>${fmtNum(t.amount)}</span>
+                      {t.saved && <span className="font-body text-xs font-bold" style={{ color: C.green }}>+${fmtNum(t.saved)} saved</span>}
+                      <span className="font-body text-xs" style={{ color: C.textMuted }}>
+                        {t.settlement !== '—' ? `⚡ ${t.settlement}` : '◐ Pending'}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* ── ANALYTICS TAB ── */}
+        {tab === 'analytics' && (
+          <div className="space-y-6">
+            {/* Volume bar chart */}
+            <div className="rounded-2xl p-6 sm:p-8" style={{ backgroundColor: C.darkLight, border: `1px solid ${C.border}` }}>
+              <div className="flex items-start justify-between mb-6 gap-4">
+                <div>
+                  <h3 className="font-display font-bold text-white mb-1">Monthly Trade Volume</h3>
+                  <p className="font-body text-xs" style={{ color: C.textSub }}>Aug 2025 – Jan 2026</p>
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <div className="font-display font-bold text-2xl" style={{ color: C.orange }}>$26.6M</div>
+                  <div className="font-body text-xs font-bold" style={{ color: C.green }}>↑ 324% YoY</div>
+                </div>
+              </div>
+              <div className="flex items-end gap-2 sm:gap-3 h-40">
+                {MONTHLY_VOL.map((d, i) => {
+                  const isLast = i === MONTHLY_VOL.length - 1;
+                  const barH = Math.max((d.vol / maxVol) * 128, 4);
+                  return (
+                    <div key={d.month} className="flex flex-col items-center gap-1.5 flex-1">
+                      <span className="font-body text-xs font-bold" style={{ color: C.orange, minHeight: '16px' }}>
+                        {isLast ? `$${d.vol}M` : ''}
+                      </span>
+                      <div
+                        className="w-full rounded-t-lg"
+                        style={{
+                          height: `${barH}px`,
+                          background: isLast
+                            ? `linear-gradient(180deg, ${C.orange}, ${C.violetLight})`
+                            : `linear-gradient(180deg, ${C.violet}, rgba(59,18,141,0.35))`,
+                        }}
+                      />
+                      <span className="font-body text-xs" style={{ color: C.textSub }}>{d.month}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Fee savings breakdown */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {[
+                { label: 'Trade3 Fees Paid',   value: `$${fmtNum(totalFees)}`,                             sub: '0.25% on-chain rate',                                       color: C.orange },
+                { label: 'Traditional Est.',   value: `$${fmtNum(Math.round(totalSaved + totalFees))}`,    sub: 'Estimated at 3% average',                                   color: C.textMuted },
+                { label: 'Net Savings',        value: `$${fmtNum(totalSaved)}`,                             sub: `${Math.round((totalSaved/(totalSaved+totalFees))*100)}% cost reduction`, color: C.green },
+              ].map(s => (
+                <div key={s.label} className="rounded-xl p-5" style={{ backgroundColor: C.darkLight, border: `1px solid ${C.border}` }}>
+                  <div className="font-display font-extrabold text-2xl mb-1" style={{ color: s.color }}>{s.value}</div>
+                  <div className="font-body text-sm font-semibold text-white mb-0.5">{s.label}</div>
+                  <div className="font-body text-xs" style={{ color: C.textSub }}>{s.sub}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Commodity breakdown */}
+            <div className="rounded-2xl p-6" style={{ backgroundColor: C.darkLight, border: `1px solid ${C.border}` }}>
+              <h3 className="font-display font-bold text-white mb-5">Volume by Commodity</h3>
+              <div className="space-y-3.5">
+                {[
+                  { name: 'LNG',        pct: 36 },
+                  { name: 'Copper Ore', pct: 22 },
+                  { name: 'Crude Oil',  pct: 18 },
+                  { name: 'Iron Ore',   pct:  9 },
+                  { name: 'Others',     pct: 15 },
+                ].map(item => (
+                  <div key={item.name}>
+                    <div className="flex justify-between mb-1.5">
+                      <span className="font-body text-sm text-white">{item.name}</span>
+                      <span className="font-body text-sm font-bold" style={{ color: C.orange }}>{item.pct}%</span>
+                    </div>
+                    <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.07)' }}>
+                      <div className="h-1.5 rounded-full" style={{ backgroundColor: C.orange, width: `${item.pct}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
 // ─── Footer / CTA ─────────────────────────────────────────────────────────────
 function Footer({ onTryDemo }) {
   return (
@@ -1089,8 +1615,11 @@ export default function Home() {
       <Nav blockHeight={blockHeight} onTryDemo={scrollToDemo} />
       <Hero onTryDemo={scrollToDemo} />
       <ProblemSection />
+      <ADBPrioritiesSection />
       <HowItWorks />
+      <TokenizedBoESection />
       <FinancingSection />
+      <SMEDashboard />
       <LiveDemo demoRef={demoRef} />
       <StatsSection />
       <Footer onTryDemo={scrollToDemo} />
